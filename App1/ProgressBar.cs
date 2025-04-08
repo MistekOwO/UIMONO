@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System.Net.Mime;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace App1;
 
@@ -9,20 +11,19 @@ public class ProgressBar : GuiElement
     private bool Inverse = false;
     private float width = 0;
     private Texture2D texture;
-    public ProgressBar(float posX, float posY,string name, bool isVertical = false, bool inverse = false, string PathToResource = "")
+    public ProgressBar(float posX, float posY,string name, bool isVertical = false, bool inverse = false,float width=0)
     {
         this.positionX = posX;
         this.positionY = posY;
         this.name = name;
         this.IsVertical = isVertical;
         this.Inverse = inverse;
-        
-        
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        
+        var position = new Vector2(positionX, positionY);
+        spriteBatch.Draw(texture,position,Color.White);
     }
 
 }

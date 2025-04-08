@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -26,8 +27,9 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-        // TODO: use this.Content to load your game content here
+        List<GuiElement> nodes = XMLLoader.readUIFile("C:/Users/matiz/Pulpit/Nowy folder/UI.xml");
+        foreach (GuiElement node in nodes)
+            node.Draw();
     }
 
     protected override void Update(GameTime gameTime)
@@ -37,7 +39,7 @@ public class Game1 : Game
             Exit();
 
         // TODO: Add your update logic here
-
+        progress += 15;
         base.Update(gameTime);
     }
 

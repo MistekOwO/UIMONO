@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace App1;
 
@@ -10,6 +11,6 @@ public class GuiElement
 
     public virtual void Draw(SpriteBatch spriteBatch)
     {
-        
+        Console.WriteLine("Kocham piwko");
     }
 }
