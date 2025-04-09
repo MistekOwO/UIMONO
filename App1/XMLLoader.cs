@@ -20,46 +20,51 @@ public static class XMLLoader
 
         foreach (XmlNode node in nodes)
         {
-           
-            switch (amog)
-            {
-               
-            }
+            elements.Add(resolveElement(node));
         }
         return elements;
     }
 
     private static GuiElement resolveElement(XmlNode node)
     {
+        GuiElement element = new GuiElement();
         string? amog = node.FirstChild.Name;
         float PositionX = float.Parse(node.Attributes["positionX"].Value);
         float PositionY = float.Parse(node.Attributes["positionY"].Value);
-        string name = node.Attributes["name"].Value;
+        string name = node.FirstChild.Attributes["name"].Value;
         switch (amog)
         {
             case "Bar":
-                bool orientation = node.Attributes["orientation"].Value.Equals("vertical");
-                bool inverted = node.Attributes["inverse"].Value.Equals("true");
-                float width = float.Parse(node.Attributes["width"].Value);
-                ProgressBar newProgressBar = new ProgressBar(PositionX, PositionY,name,orientation,inverted,width);
+                bool orientation = node.FirstChild.Attributes["orientation"].Value.Equals("vertical");
+                bool inverted = node.FirstChild.Attributes["inverse"].Value.Equals("true");
+                float width = float.Parse(node.FirstChild.Attributes["width"].Value);
+                element = new ProgressBar(PositionX, PositionY,name,orientation,inverted,width);
                 break;
             case "Button":
-                float width2 = float.Parse(node.Attributes["width"].Value);
-                float height = float.Parse(node.Attributes["height"].Value);
-                Button newButton = new Button(PositionX,PositionY,name,width2,height);
+                float width2 = float.Parse(node.FirstChild.Attributes["width"].Value);
+                float height = float.Parse(node.FirstChild.Attributes["height"].Value);
+                element = new Button(PositionX,PositionY,name,width2,height);
                 break;
             case "Image":
-                Image newImage = new Image(PositionX, PositionY, name);
+                element = new Image(PositionX, PositionY, name);
                 break;
             case "TextInput":
-                
+                float fontSize = float.Parse(node.FirstChild.Attributes["fontSize"].Value);
+                string font = node.FirstChild.Attributes["fontStyle"].Value;
+                string placeHolder = node.FirstChild.Attributes["placeholder"].Value;
+                element = new TextInput(PositionX,PositionY,name,fontSize,font,placeHolder);
                 break;
             case "Text":
+                float fontSize2 = float.Parse(node.FirstChild.Attributes["fontSize"].Value);
+                string font2 = node.FirstChild.Attributes["fontStyle"].Value;
+                string placeHolder2 = node.FirstChild.InnerText;
+                element = new Text(PositionX,PositionY,name,placeHolder2,fontSize2,font2);
                 break;
             default:
                 Console.WriteLine("Unknown element");
                 break;
         }
+        return element;
     }
     
 }

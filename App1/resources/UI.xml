@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Hud name="test">
+    <GuiElement positionX="50" positionY="0">
+        <Bar name="hpbar" orientation="vertical" inverse="false" width="50"/>
+    </GuiElement>
+    <GuiElement positionX="0" positionY="100">
+        <Image name="obrazek"/>
+    </GuiElement>
+    <GuiElement positionX="50" positionY="50">
+        <Button name="guzik" width="10" height="5"/>
+    </GuiElement>
+    <GuiElement positionX="50" positionY="70">
+        <TextInput name="pole" fontSize="15" fontStyle="Arial" placeholder="text"/>
+    </GuiElement>
+    <GuiElement positionX="50" positionY="85">
+        <Text name="text" fontSize="30" fontStyle="Arial">dodaj cus</Text>
+    </GuiElement>
+</Hud>

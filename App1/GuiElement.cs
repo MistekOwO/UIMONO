@@ -13,4 +13,8 @@ public class GuiElement
     {
         Console.WriteLine("Kocham piwko");
     }
+    public virtual void Load(Texture2D texture)
+    {
+        Console.WriteLine("Kocham piwko");
+    }
 }

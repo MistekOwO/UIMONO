@@ -1,18 +1,19 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\matiz\\Pulpit\\Nowy folder\\App1\\App1\\App1.csproj": {}
+    "D:\\UIMachen\\App1\\App1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\matiz\\Pulpit\\Nowy folder\\App1\\App1\\App1.csproj": {
+    "D:\\UIMachen\\App1\\App1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\matiz\\Pulpit\\Nowy folder\\App1\\App1\\App1.csproj",
+        "projectUniqueName": "D:\\UIMachen\\App1\\App1.csproj",
         "projectName": "App1",
-        "projectPath": "C:\\Users\\matiz\\Pulpit\\Nowy folder\\App1\\App1\\App1.csproj",
+        "projectPath": "D:\\UIMachen\\App1\\App1.csproj",
         "packagesPath": "C:\\Users\\matiz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\matiz\\Pulpit\\Nowy folder\\App1\\App1\\obj\\",
+        "outputPath": "D:\\UIMachen\\App1\\obj\\",
         "projectStyle": "PackageReference",
+        "UsingMicrosoftNETSdk": false,
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
@@ -26,6 +27,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -74,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.407/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
