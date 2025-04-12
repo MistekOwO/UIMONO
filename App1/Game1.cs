@@ -10,6 +10,7 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private GUI _gui;
+    private ProgressBar _hProgressBar;
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -27,11 +28,9 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        List<GuiElement> nodes = XMLLoader.readUIFile("resources/UI.xml");
-        nodes[0].Load(Content.Load<Texture2D>("hpbar"));
-        _gui = new GUI();
-        _gui.elements = nodes;
-        
+
+        _gui = new GUI("App1/resources/UI.xml", Content);
+
     }
 
     protected override void Update(GameTime gameTime)
@@ -48,10 +47,9 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
-
         // TODO: Add your drawing code here
         _spriteBatch.Begin();
-        _gui.elements[0].Draw(_spriteBatch);
+        _gui.Draw(_spriteBatch);
         _spriteBatch.End();
         base.Draw(gameTime);
     }

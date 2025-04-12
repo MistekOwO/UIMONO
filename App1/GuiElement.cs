@@ -8,6 +8,7 @@ public class GuiElement
     public float positionX;
     public float positionY;
     public string name;
+    public float scale;
 
     public virtual void Draw(SpriteBatch spriteBatch)
     {
@@ -17,4 +18,9 @@ public class GuiElement
     {
         Console.WriteLine("Kocham piwko");
     }
+    public virtual void Load(SpriteFont font)
+    {
+        Console.WriteLine("Kocham piwko2");
+    }
+    
 }
