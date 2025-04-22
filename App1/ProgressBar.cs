@@ -6,7 +6,7 @@ namespace App1;
 
 public class ProgressBar : GuiElement
 {
-    public float progress = 40;
+    public float progress = 100;
     private bool IsVertical = false;
     private bool Inverse = false;
     private float width = 0;
@@ -26,8 +26,9 @@ public class ProgressBar : GuiElement
     public override void Draw(SpriteBatch spriteBatch)
     {
         var position = new Vector2(positionX, positionY);
-        Rectangle rect = new Rectangle((int)positionX,(int)positionY,(int)(texture.Width * progress/100), texture.Height);
-        spriteBatch.Draw(texture, position,null, Color.White,0,Vector2.Zero,scale,SpriteEffects.None,0);
+        Vector2 nonUniformScale = new Vector2(scale * (progress/100), scale);
+        Rectangle rect = new Rectangle((int)positionX,(int)positionY,(int)(texture.Width*scale * progress/100), (int)(texture.Height*scale));
+        spriteBatch.Draw(texture, position,null, Color.White,0,Vector2.Zero,nonUniformScale,SpriteEffects.None,0);
     }
 
     public override void Load(Texture2D texture)
