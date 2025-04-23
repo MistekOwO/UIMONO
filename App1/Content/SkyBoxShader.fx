@@ -1,11 +1,11 @@
 ﻿#if OPENGL
-    #define SV_POSITION POSITION
     #define VS_SHADERMODEL vs_3_0
     #define PS_SHADERMODEL ps_3_0
 #else
-    #define VS_SHADERMODEL vs_4_0
-    #define PS_SHADERMODEL ps_4_0
+    #define VS_SHADERMODEL vs_5_0
+    #define PS_SHADERMODEL ps_5_0
 #endif
+
 
 TextureCube CubeTexture : register(t0); // The cube map bound to texture register t0
 SamplerState CubeSampler : register(s0); // The sampler bound to sampler register s0
@@ -43,7 +43,7 @@ float4 MainPS(VertexShaderOutput input) : SV_TARGET
     float3 direction = normalize(input.Normal);
 
     // Sample the cube map using the direction vector
-    return CubeTexture.Sample(CubeSampler, direction);
+    return CubeTexture.Sample(CubeSampler, input.Normal);
 }
 
 technique BasicColorDrawing

@@ -14,6 +14,7 @@ public class Game1 : Game
     private ProgressBar _hProgressBar;
     private TextureCube textureCube;
     private Effect _skyBoxEffect;
+    
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -24,7 +25,8 @@ public class Game1 : Game
     protected override void Initialize()
     {
         // TODO: Add your initialization logic here
-    _graphics.GraphicsProfile = GraphicsProfile.HiDef;
+        _graphics.GraphicsProfile = GraphicsProfile.HiDef;
+        _graphics.ApplyChanges();
     
         base.Initialize();
     }
@@ -40,8 +42,8 @@ public class Game1 : Game
         
         
         textureCube = new TextureCube(_graphics.GraphicsDevice, size, false, SurfaceFormat.Color);
-        Texture2D posX = Content.Load<Texture2D>("left");
-        Texture2D negX = Content.Load<Texture2D>("right");
+        Texture2D posX = Content.Load<Texture2D>("right");
+        Texture2D negX = Content.Load<Texture2D>("left");
         Texture2D posY = Content.Load<Texture2D>("top");
         Texture2D negY = Content.Load<Texture2D>("bottom");
         Texture2D posZ = Content.Load<Texture2D>("front");
@@ -61,10 +63,11 @@ public class Game1 : Game
             AddressV = TextureAddressMode.Clamp,
             AddressW = TextureAddressMode.Clamp
         };
+       
         _skyBoxEffect = Content.Load<Effect>("SkyBoxShader");
         if (_skyBoxEffect == null)
             throw new Exception("SkyBoxShader effect failed to load.");
-        Matrix view = Matrix.CreateLookAt(new Vector3(0, 0, 0), Vector3.Zero, Vector3.Up);
+        Matrix view = Matrix.CreateLookAt(new Vector3(0, 0, -5), Vector3.Zero, Vector3.Up);
         Matrix projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
             MathHelper.PiOver4,
             GraphicsDevice.Viewport.AspectRatio,
@@ -73,18 +76,19 @@ public class Game1 : Game
         
         _skyBoxEffect.Parameters["WorldViewProjection"].SetValue(world*view*projectionMatrix);
         
-        
-        
-        
-        
-        
-        
-        var parameter = _skyBoxEffect.Parameters["CubeTexture"];
-        if (parameter == null)
-            throw new Exception("CubeTexture parameter not found in shader.");
-        _skyBoxEffect.Parameters["CubeTexture"].SetValue(textureCube);
-        _graphics.GraphicsDevice.SamplerStates[0] = samplerState;
+        foreach (var parameter in _skyBoxEffect.Parameters)
+        {
+            Console.WriteLine($"Parameter: {parameter.Name}, Type: {parameter.ParameterType}");
+        }
 
+        if (textureCube == null)
+        {
+            Console.WriteLine("piwo");
+        }
+        _skyBoxEffect.Parameters["CubeSampler+CubeTexture"].SetValue(textureCube);
+        _graphics.GraphicsDevice.SamplerStates[0] = samplerState;
+        
+        
         var cubeVertices = new VertexPositionNormalTexture[36];
 
 // Define the size and texture coordinates
@@ -165,7 +169,8 @@ cubeVertices[33] = new VertexPositionNormalTexture(topRightFront, rightNormal, t
 cubeVertices[34] = new VertexPositionNormalTexture(bottomRightBack, rightNormal, textureBottomRight);
 cubeVertices[35] = new VertexPositionNormalTexture(topRightBack, rightNormal, textureTopRight);
 
-
+Console.WriteLine($"Cube Size: {textureCube.Size}");
+Console.WriteLine($"Cube Format: {textureCube.Format}");
 
 // Create a vertex buffer and upload the cube vertices
 var vertexBuffer = new VertexBuffer(
@@ -176,7 +181,8 @@ var vertexBuffer = new VertexBuffer(
 );
 
 vertexBuffer.SetData(cubeVertices);
-
+GraphicsDevice.RasterizerState = RasterizerState.CullClockwise;
+GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 GraphicsDevice.SetVertexBuffer(vertexBuffer);
     }
 
@@ -199,32 +205,26 @@ GraphicsDevice.SetVertexBuffer(vertexBuffer);
         foreach (var pass in _skyBoxEffect.CurrentTechnique.Passes)
         {
             pass.Apply();
-            GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList,0,12);
+            _graphics.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList,0,12);
         }
+        
         base.Draw(gameTime);
     }
-    
+
     void SetCubeFaceData(TextureCube cube, CubeMapFace face, Texture2D texture)
     {
-        // Create a Color array to hold the pixel data of the texture
         Color[] colorData = new Color[texture.Width * texture.Height];
+        texture.GetData(colorData);
+        Console.WriteLine($"Setting data for {face}: First Pixel = {colorData[0]}");
 
-       
-
-       
         try
         {
-            // Extract the pixel data from the Texture2D
-            texture.GetData(colorData);
+            cube.SetData(face, 0, null, colorData, 0, colorData.Length);
+            Console.WriteLine($"Successfully set data for face {face}");
         }
         catch (Exception ex)
         {
-            
-            Console.WriteLine("Exception occurred:");
-            Console.WriteLine("Message: " + ex.Message);
-            Console.WriteLine("Stack Trace: " + ex.StackTrace);
+            Console.WriteLine($"Failed to set data for face {face}: {ex.Message}");
         }
-        // Set the pixel data for the specific face of the cube map
-        cube.SetData(face, 0, null, colorData, 0, colorData.Length);
     }
 }
